@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
+		<EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.12" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.12">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Microservice.Application.Entities\Microservice.Application.Entities.csproj" />
+		<ProjectReference Include="..\Microservice.BusinessLogic\Microservice.BusinessLogic.csproj" />
+		<ProjectReference Include="..\Microservice.Companion.Controllers\Microservice.Companion.Controllers.csproj" />
+		<ProjectReference Include="..\Microservice.DataAccress\Microservice.DataAccress.csproj" />
+		<ProjectReference Include="..\Shareds\Shareds.csproj" />
+	</ItemGroup>
+
+</Project>

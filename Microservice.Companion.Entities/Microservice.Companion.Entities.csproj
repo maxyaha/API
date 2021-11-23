@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Microservice.DataAccress.Entites\Microservice.DataAccress.Entites.csproj" />
+		<ProjectReference Include="..\Shareds\Shareds.csproj" />
+	</ItemGroup>
+	
+</Project>
