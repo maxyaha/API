@@ -6,7 +6,7 @@ namespace Microservice.Companion.Entities.Tester.Maps
     /// <summary>
     /// 
     /// </summary>
-    public class TestMapper : BaseMapper<Test, TestDTO>
+    public class TestMapper : BaseMapper<Test, TestDto>
     {
     }
 

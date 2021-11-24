@@ -3,6 +3,10 @@ using System;
 
 namespace Microservice.Companion.Entities
 {
+    public interface IValidatable
+    {
+        bool IsValid();
+    }
     /// <summary>
     /// 
     /// </summary>
@@ -12,14 +16,24 @@ namespace Microservice.Companion.Entities
         /// <summary>
         /// 
         /// </summary>
-        public DateTime CreatedDate { get; set; }
+        public virtual DateTime CreatedDate { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public DateTime? ModifiedDate { get; set; }
+        public virtual DateTime? ModifiedDate { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public int Version { get; set; }
+        public virtual int Version { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual bool Active { get; set; }
+    }
+
+    [Serializable]
+    public abstract class BaseModelerWrapper : DataTransferObjectWrapper
+    {
+
     }
 }

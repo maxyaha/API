@@ -74,8 +74,7 @@ namespace Shareds.DesignPatterns.CQRS.Events
             switch (events.Count())
             {
                 case int count when !count.Equals(0):
-                    List<Task> tasks = new List<Task>();
-
+                  
                     foreach (Event @event in events)
                     {
                         ApplyChange(@event, false);

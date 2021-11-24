@@ -3,6 +3,7 @@ using Microservice.Companion.Controllers.CommandHandlers.Tester;
 using Microservice.DataAccress.Events;
 using Microservice.DataAccress.Features;
 using Microservice.DataAccress.Features.Repositories;
+using Microservice.DataAccress.IPD;
 using Microservice.DataAccress.Tester;
 using Microservice.DataAccress.Tester.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -61,6 +62,7 @@ namespace Microservice.Application.AppStart
                 register.For<ITesterStoreContext>().Use(() => new TesterStoreContext());
                 register.For<ITestManager>().Use<TestManager>();
 
+                register.For<IIpdStoreContext>().Use(() => new IpdStoreContext());
                 // Register IoC micro store connection.
                 //   register.For<IFeatureStoreContext>().Use(() => new FeatureStoreContext());
 

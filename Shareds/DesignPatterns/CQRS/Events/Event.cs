@@ -8,8 +8,9 @@ namespace Shareds.DesignPatterns.CQRS.Events
     /// 
     /// </summary>
     [Flags]
-    public enum EventState
+    public enum Eventstates
     {
+        None = 0,
         /// <summary>
         /// 
         /// </summary>
@@ -29,7 +30,7 @@ namespace Shareds.DesignPatterns.CQRS.Events
     [Serializable]
     public class Event : DataTransferObject, IEvent
     {
-        public Event(Guid aggregateID, int version, DateTime timestamp, EventState state)
+        public Event(Guid aggregateID, int version, DateTime timestamp, Eventstates state)
         {
             AggregateID = aggregateID;
             Version = version;
@@ -52,6 +53,6 @@ namespace Shareds.DesignPatterns.CQRS.Events
         /// <summary>
         /// 
         /// </summary>
-        public EventState State { get; set; }
+        public Eventstates State { get; set; }
     }
 }

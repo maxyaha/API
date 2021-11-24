@@ -27,9 +27,9 @@ namespace Shareds.DesignPatterns.CQRS.Commands
 
             try
             {
-                await handler.Execute(command).ConfigureAwait(false);
+                await handler.ExecuteAsync(command).ConfigureAwait(false);
             }
-            catch (System.Exception ex)
+            catch (Exception)
             {
                 throw new UnregisteredDomainCommandException("no handler registered");
             }

@@ -14,7 +14,7 @@ namespace Shareds.DesignPatterns.CQRS.Events.Interfaces
         /// </summary>
         /// <param name="aggregateId"></param>
         /// <returns></returns>
-        Task<IEnumerable<Event>> GetEvents(Guid aggregateId);
+        Task<IEnumerable<Event>> GetEvents(Guid id);
         /// <summary>
         /// 
         /// </summary>
@@ -27,7 +27,7 @@ namespace Shareds.DesignPatterns.CQRS.Events.Interfaces
         /// <typeparam name="T"></typeparam>
         /// <param name="aggregateId"></param>
         /// <returns></returns>
-        Task<T> GetMemento<T>(Guid aggregateId) where T : BaseMemento;
+        Task<T> GetMemento<T>(Guid id) where T : BaseMemento;
         /// <summary>
         /// 
         /// </summary>

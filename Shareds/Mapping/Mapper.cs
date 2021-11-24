@@ -1,4 +1,5 @@
-﻿using Omu.ValueInjecter;
+﻿using Newtonsoft.Json.Linq;
+using Omu.ValueInjecter;
 using Shareds.Mapping.Extensions;
 using Shareds.Mapping.Interfaces;
 using System;
@@ -119,16 +120,19 @@ namespace Shareds.Mapping
         /// <param name="source"></param>
         /// <param name="target"></param>
         /// <returns></returns>
-        public virtual TTarget Map(TSource source, TTarget target)
+        public virtual TTarget Map(TSource sources, TTarget targets)
         {
-            target.InjectFrom(source)
-                .InjectFrom<ConverterExtensions.Normal>(source)
-                .InjectFrom<ConverterExtensions.Nullables>(source)
-                .InjectFrom<ConverterExtensions.Enum>(source)
-                .InjectFrom<ConverterExtensions.Int32>(source)
-                .InjectFrom<ConverterExtensions>(source);
+            if (sources is JObject)
+                targets.InjectFrom(sources);
 
-            return target;
+            targets.InjectFrom(sources)
+                .InjectFrom<ConverterExtensions.Normal>(sources)
+                .InjectFrom<ConverterExtensions.Nullables>(sources)
+                .InjectFrom<ConverterExtensions.Enum>(sources)
+                .InjectFrom<ConverterExtensions.Int32>(sources)
+                .InjectFrom<ConverterExtensions>(sources);
+
+            return targets;
         }
     }
     /// <summary>

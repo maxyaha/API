@@ -1,18 +1,24 @@
-﻿using Shareds.DesignPatterns.Model;
+﻿using Microservice.Companion.Entities.Features.Models;
+using Newtonsoft.Json;
+using Shareds.DesignPatterns.Model;
+using System.ComponentModel.DataAnnotations;
 
 namespace Microservice.Application.Entities
 {
-    public enum Personal
-    {
-        Publish = 1,
-        Private = 2
-    }
     /// <summary>
     /// 
     /// </summary>
     public abstract class BaseModeler : PresentModel
     {
-        public string UserName { get; set; }
-        public Personal Personal { get; set; }
+
+        public virtual string UserName { get; set; }
+
+        [Required]
+        public virtual PrivacyTypes PrivacyCode { get; set; }
+    }
+
+    public abstract class BaseModelerWrapper : PresentModelWrapper
+    {
+
     }
 }

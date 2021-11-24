@@ -22,7 +22,7 @@ namespace Shareds.DesignPatterns.Repository
         where TEntity : DomainModel
         where TKey : DomainModel
     {
-        private ILogger logger;
+        private readonly ILogger logger;
         private readonly IContext<TContext> context;
 
         protected BaseRepository(IContext<TContext> context, ILogger logger)
@@ -85,7 +85,6 @@ namespace Shareds.DesignPatterns.Repository
             catch (ValidationException ex)
             {
                 StringBuilder sb = new StringBuilder(ex?.Message);
-                //sb.Append(ex?.Message);
 
                 this.logger.Fatal(sb.ToString());
                 this.logger.LogException(ex);
@@ -124,6 +123,7 @@ namespace Shareds.DesignPatterns.Repository
         {
             TContext context = this.context.DatabaseContext;
 
+            context.Set<TEntity>().Update(entity);
             context.Entry(entity).State = EntityState.Modified;
 
             try

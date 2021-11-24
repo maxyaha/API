@@ -11,4 +11,9 @@ namespace Shareds.DesignPatterns.Model
     public abstract class DataTransferObject : BaseModel
     {
     }
+
+    [Serializable]
+    public abstract class DataTransferObjectWrapper 
+    {
+    }
 }

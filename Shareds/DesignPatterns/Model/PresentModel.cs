@@ -20,14 +20,19 @@ namespace Shareds.DesignPatterns.Model
         /// <summary>
         /// 
         /// </summary>
-        public int Version { get; set; }
+        public virtual int Version { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public DateTime? CreatedDate { get; set; }
+        public virtual DateTime? CreatedDate { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public DateTime? ModifiedDate { get; set; }
+        public virtual DateTime? ModifiedDate { get; set; }
+    }
+
+    public abstract class PresentModelWrapper
+    {
+      
     }
 }

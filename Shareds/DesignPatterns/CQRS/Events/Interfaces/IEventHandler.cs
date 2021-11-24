@@ -13,7 +13,7 @@ namespace Shareds.DesignPatterns.CQRS.Events.Interfaces
         /// </summary>
         /// <param name="handle"></param>
         /// <returns></returns>
-        Task Execute(TEvent handle);
+        Task ExecuteAsync(TEvent handle);
     }
     /// <summary>
     /// 

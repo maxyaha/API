@@ -13,6 +13,6 @@
         /// <param name="source"></param>
         /// <param name="target"></param>
         /// <returns></returns>
-        TTarget Map(TSource source, TTarget target);
+        TTarget Map(TSource sources, TTarget targets);
     }
 }

@@ -70,7 +70,6 @@ namespace Microservice.DataAccress.Tester
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new TestConfiguration());
-    
 
        
 

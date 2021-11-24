@@ -90,10 +90,10 @@ namespace Shareds.Logging
             log.Exception = exception;
             log.Properties["Reference"] = Guid.NewGuid();
             log.Properties["AssemblyVersion"] = CallingAssemblyVersion();
-            log.Properties["QueryString"] = request.Equals(null)
+            log.Properties["QueryString"] = request is null
                 ? null
                 : String.Concat(request.Path, request.QueryString.ToString());
-            log.Properties["FormData"] = request.Equals(null)
+            log.Properties["FormData"] = request is null
                 ? null
                 : request.Form.ToString();
 
@@ -118,13 +118,11 @@ namespace Shareds.Logging
         /// <returns></returns>
         private string CallingAssemblyVersion()
         {
-            Stopwatch stopwatch = new Stopwatch();
-            //FileVersionInfo file = FileVersionInfo.GetVersionInfo(Assembly.GetCallingAssembly().Location);
-            //return file.ProductVersion;
             return FileVersionInfo
                 .GetVersionInfo(Assembly.GetCallingAssembly().Location)
                 .ProductVersion;
         }
+#pragma warning disable S1144 // Unused private types or members should be removed
         /// <summary>
         /// 
         /// </summary>
@@ -140,6 +138,9 @@ namespace Shareds.Logging
             }
             return build.ToString();
         }
+#pragma warning restore S1144 // Unused private types or members should be removed
+
+
         /// <summary>
         /// 
         /// </summary>

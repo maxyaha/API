@@ -19,9 +19,11 @@ namespace Microservice.BusinessLogic
     public interface ITestManager
     {
 
-        Task<IEnumerable<TestDTO>> Test();
-        Task<TestDTO> Test(Guid? id);
-        Task<TestDTO> AddTest(TestDTO entity);
+        Task<IEnumerable<TestDto>> Test();
+        Task<TestDto> Test(Guid? id);
+        Task<TestDto> AddTest(TestDto entity);
+        Task<TestDto> UpdateTest(Guid id,TestDto entity);
+        Task<TestDto> DeleteTest(Guid id,TestDto entity);
 
     }
 
@@ -41,20 +43,20 @@ namespace Microservice.BusinessLogic
 
         }
 
-        public async Task<IEnumerable<TestDTO>> Test()
+        public async Task<IEnumerable<TestDto>> Test()
         {
             var queries = await this.repoTest.GetAllAsync().ConfigureAwait(false);
 
             return queries.Select(new TestMapper().ToDataTransferObject);
         }
-        public async Task<TestDTO> Test(Guid? id)
+        public async Task<TestDto> Test(Guid? id)
         {
             var query = await this.repoTest.GetSingleAsync(x => x.ID == id).ConfigureAwait(false);
 
             return new TestMapper().ToDataTransferObject(query);
         }
 
-        public async Task<TestDTO> AddTest(TestDTO entity)
+        public async Task<TestDto> AddTest(TestDto entity)
         {
             Command handle;
 
@@ -64,5 +66,32 @@ namespace Microservice.BusinessLogic
             return null;
         }
 
+        public async Task<TestDto> UpdateTest(Guid id, TestDto entity)
+        {
+            var query = await this.repoTest.GetSingleAsync(x => x.ID == id).ConfigureAwait(false);
+            var map = new TestMapper().ToDataTransferObject(query);
+
+            entity.ModifiedDate = map.ModifiedDate;
+            entity.CreatedDate = map.CreatedDate;
+            entity.Version = map.Version;
+            
+
+            Command handle;
+
+            handle = new TestCommand(entity, id, entity.Version);
+            await this.command.Send(handle as TestCommand).ConfigureAwait(false);
+
+            return null;
+        }
+
+        public async Task<TestDto> DeleteTest(Guid id, TestDto entity)
+        {
+            Command handle;
+
+            handle = new TestCommand(entity,id,entity.Version,false);
+            await this.command.Send(handle as TestCommand).ConfigureAwait(false);
+
+            return null;
+        }
     }
 }

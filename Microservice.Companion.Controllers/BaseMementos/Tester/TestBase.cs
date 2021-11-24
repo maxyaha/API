@@ -16,11 +16,11 @@ namespace Microservice.Companion.Controllers.BaseMementos.Tester
         /// <param name="entity"></param>
         /// <param name="id"></param>
         /// <param name="version"></param>
-        public TestBase(TestDTO entity, Guid id, int version) : base(id, version)
+        public TestBase(TestDto entity, Guid id, int version) : base(id, version)
         {
             Test = entity;
         }
 
-        public TestDTO Test { get; set; }
+        public TestDto Test { get; set; }
     }
 }

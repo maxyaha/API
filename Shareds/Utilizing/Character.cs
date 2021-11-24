@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Shareds.Utilizing
@@ -10,6 +11,30 @@ namespace Shareds.Utilizing
     /// </summary>
     public static class Character
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static string SpaceUpperCase(this string message)
+        {
+            var builder = new StringBuilder();
+
+            char chars = Char.MinValue;
+
+            foreach (var @char in message)
+            {
+                if (Char.IsUpper(@char) && builder.Length != 0 && chars != ' ')
+                {
+                    builder.Append(' ');
+                }
+                builder.Append(@char);
+
+                chars = @char;
+            }
+
+            return builder.ToString();
+        }
         /// <summary>
         /// 
         /// </summary>

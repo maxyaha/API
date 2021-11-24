@@ -3,9 +3,9 @@
 namespace Microservice.Companion.Entities.Tester.Models
 {
     [Serializable]
-    public class TestDTO : BaseModeler
+    public class TestDto : BaseModeler
     {
-        public TestDTO()
+        public TestDto()
         {
           
         }

@@ -1,4 +1,5 @@
-﻿using Microservice.DataAccress.Entites.Tester.Models;
+﻿using System;
+using Microservice.DataAccress.Entites.Tester.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,12 +11,11 @@ namespace Microservice.DataAccress.Tester.Configurable
 
         public void Configure(EntityTypeBuilder<Test> builder)
         {
-            builder.ToTable("Test");
+            builder.ToTable("Tes");
 
             builder.HasKey(o => o.ID);
 
-            //builder.Property(o => o.ID).HasColumnName("ID").IsRequired().HasDefaultValueSql();
-            builder.Property(o => o.ID).HasColumnName("ID").IsRequired().ValueGeneratedOnAdd();
+            builder.Property(o => o.ID).HasColumnName("ID").IsRequired();
             builder.Property(o => o.CreatedDate).HasColumnName("CreatedDate").IsRequired();
             builder.Property(o => o.ModifiedDate).HasColumnName("ModifiedDate");
             builder.Property(o => o.Version).HasColumnName("Version").IsRequired();

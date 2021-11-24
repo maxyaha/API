@@ -54,11 +54,13 @@ namespace Microservice.BusinessLogic
         /// </summary>
         /// <param name="aggregateID"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Event>> GetEvents(Guid aggregateID)
+        public async Task<IEnumerable<Event>> GetEvents(Guid id)
         {
-            var events = await this.repoEvent.FindByAsync(o => o.AggregateID == aggregateID)
+            var events = await this.repoEvent.FindByAsync(o => o.AggregateID == id)
                 // Await, Get data from database by ID.
                 .ConfigureAwait(false);
+
+            events = events.OrderBy(o => o.Timestamp);
 
             return events.Select(new EventMapper().ToDataTransferObject);
         }
@@ -68,9 +70,9 @@ namespace Microservice.BusinessLogic
         /// <typeparam name="T"></typeparam>
         /// <param name="aggregateID"></param>
         /// <returns></returns>
-        public async Task<T> GetMemento<T>(Guid aggregateID) where T : BaseMemento
+        public async Task<T> GetMemento<T>(Guid id) where T : BaseMemento
         {
-            var mementos = await this.repoBaseMemento.FindByAsync(o => o.ID == aggregateID)
+            var mementos = await this.repoBaseMemento.FindByAsync(o => o.ID == id)
                 // Await, Get data from database by ID.
                 .ConfigureAwait(false);
 
@@ -104,32 +106,31 @@ namespace Microservice.BusinessLogic
 
                 switch (@event.State)
                 {
-                    case EventState.Added when version == 0 && entity == null:
+                    case Eventstates.Added when (entity is null) && version == 0:
                         entity = await this.repoAggregateRoot.Create(new AggregateRootMapper().ToDomainModel(aggregate))
-                            // Await, Post data to database.
+                            // Await, Add data to database.
                             .ConfigureAwait(false);
-
                         @event.AggregateID = entity.ID;
-
                         await this.repoEvent.Create(new EventMapper().ToDomainModel(@event))
-                            // Await, Post data to database.
+                            // Await, Add data to database.
                             .ConfigureAwait(false);
                         break;
-                    case EventState.Changed when version >= 1 && entity != null:
+                    case Eventstates.Changed when !(entity is null) && version >= 0:
                         entity.Version = version;
-
                         await this.repoAggregateRoot.Update(entity)
-                            // Await, Put data to database.
+                            // Await, Change data to database.
                             .ConfigureAwait(false);
                         await this.repoEvent.Create(new EventMapper().ToDomainModel(@event))
-                            // Await, Post data to database.
+                            // Await, Add data to database.
                             .ConfigureAwait(false);
                         break;
-                    case EventState.Removed:
+                    case Eventstates.Removed:
                         break;
                     default:
-                        throw new NullReferenceException();
+                        break;
                 }
+
+
                 // Convert to event handlers.
                 var eventer = Converter.ChangeTo(@event, @event.GetType());
 

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
+    <PackageReference Include="NLog" Version="4.6.5" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.3" />
+    <PackageReference Include="StructureMap" Version="4.7.1" />
+    <PackageReference Include="StructureMap.Microsoft.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="ValueInjecter" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Authentication\Basic\Events\" />
+    <Folder Include="DesignPatterns\CQRS\Commands\Interfaces\" />
+    <Folder Include="DesignPatterns\CQRS\Events\Interfaces\" />
+    <Folder Include="DesignPatterns\CQRS\Repositories\Interfaces\" />
+    <Folder Include="Mapping\Extensions\" />
+    <Folder Include="Mapping\Interfaces\" />
+  </ItemGroup>
+  
+</Project>

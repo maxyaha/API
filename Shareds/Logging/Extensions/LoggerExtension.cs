@@ -187,62 +187,16 @@ namespace Shareds.Logging.Extensions
                     WriteLine();
                     break;
                 case IEnumerable element:
-                    foreach (object elementary in element)
-                    {
-                        switch (elementary)
-                        {
-                            case IEnumerable enumerable when !(elementary is String):
-                                WriteIndent();
-                                Write(prefix);
-                                WriteValue(elementary);
-                                WriteLine();
-
-                                if (this.level < this.depth)
-                                {
-                                    this.level++;
-                                    WriteObject(prefix, elementary);
-                                    this.level--;
-                                }
-                                break;
-                            default:
-                                WriteObject(prefix, elementary);
-                                break;
-                        }
-                    }
+                    element_IEnumerable(prefix, element);
+                 
                     break;
                 default:
                     WriteIndent();
                     Write(prefix);
 
                     MemberInfo[] members = elements.GetType().GetMembers(BindingFlags.Public | BindingFlags.Instance);
-
-                    foreach (MemberInfo member in members)
-                    {
-                        object element;
-
-                        try
-                        {
-                            switch (member)
-                            {
-                                case FieldInfo field:
-                                    element = field.GetValue(elements);
-                                    break;
-                                case PropertyInfo property:
-                                    element = property.GetValue(elements, null);
-                                    break;
-                                default:
-                                    continue;
-                            }
-                            Write(member.Name);
-                            Write("=");
-                            WriteValue(element);
-                            WriteTab();
-                        }
-                        catch (Exception ex)
-                        {
-                            Write("Exception :" + ex.ToString());
-                        }
-                    }
+                    MemberInfo_element(members, elements);
+            
                     WriteLine();
 
                     if (this.level < this.depth)
@@ -268,6 +222,62 @@ namespace Shareds.Logging.Extensions
                         }
                     }
                     break;
+            }
+        }
+
+        private void MemberInfo_element(MemberInfo[] members, object elements)
+        {
+            foreach (MemberInfo member in members)
+            {
+                object element;
+
+                try
+                {
+                    switch (member)
+                    {
+                        case FieldInfo field:
+                            element = field.GetValue(elements);
+                            break;
+                        case PropertyInfo property:
+                            element = property.GetValue(elements, null);
+                            break;
+                        default:
+                            continue;
+                    }
+                    Write(member.Name);
+                    Write("=");
+                    WriteValue(element);
+                    WriteTab();
+                }
+                catch (Exception ex)
+                {
+                    Write("Exception :" + ex.ToString());
+                }
+            }
+        }
+        private void element_IEnumerable(string prefix, IEnumerable element)
+        {
+            foreach (object elementary in element)
+            {
+                switch (elementary)
+                {
+                    case IEnumerable enumerable when !(elementary is String):
+                        WriteIndent();
+                        Write(prefix);
+                        WriteValue(elementary);
+                        WriteLine();
+
+                        if (this.level < this.depth)
+                        {
+                            this.level++;
+                            WriteObject(prefix, elementary);
+                            this.level--;
+                        }
+                        break;
+                    default:
+                        WriteObject(prefix, elementary);
+                        break;
+                }
             }
         }
     }

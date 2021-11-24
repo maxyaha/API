@@ -16,7 +16,7 @@ namespace Microservice.Companion.Controllers.AggregateRoots.Tester
         {
         }
 
-        public TestDTO Test { get; private set; }
+        public TestDto Test { get; private set; }
 
         #region Internal command implementations
 
@@ -25,7 +25,7 @@ namespace Microservice.Companion.Controllers.AggregateRoots.Tester
         /// </summary>
         /// <param name="id"></param>
         /// <param name="entity"></param>
-        internal TestRoot(Guid id, TestDTO entity)
+        internal TestRoot(Guid id, TestDto entity)
         {
             ApplyChange(new TestEvent(entity));
         }
@@ -33,16 +33,16 @@ namespace Microservice.Companion.Controllers.AggregateRoots.Tester
         /// 
         /// </summary>
         /// <param name="entity"></param>
-        internal void Change(TestDTO entity)
+        internal void Change(TestDto entity)
         {
             ApplyChange(new TestEvent(entity, ID, Version));
         }
         /// <summary>
         /// 
         /// </summary>
-        internal void Remove(TestDTO entity)
+        internal void Remove(TestDto entity)
         {
-            ApplyChange(new TestEvent(entity, ID, Version, null));
+            ApplyChange(new TestEvent(entity, ID, Version, true));
         }
 
         #endregion Internal command implementations

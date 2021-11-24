@@ -13,9 +13,10 @@ namespace Microservice.Companion.Controllers.Commands.Tester
         /// 
         /// </summary>
         /// <param name="entity"></param>
-        public TestCommand(TestDTO entity) : base(Guid.Empty, -1, CommandState.Added)
+        public TestCommand(TestDto entity) : base(Guid.Empty, -1, Commandstates.Added)
         {
             Test = entity;
+            Test.Active = true;
         }
         /// <summary>
         /// 
@@ -23,20 +24,22 @@ namespace Microservice.Companion.Controllers.Commands.Tester
         /// <param name="entity"></param>
         /// <param name="id"></param>
         /// <param name="version"></param>
-        public TestCommand(TestDTO entity, Guid id, int version) : base(id, version, CommandState.Changed)
+        public TestCommand(TestDto entity, Guid id, int version) : base(id, version, Commandstates.Changed)
         {
             Test = entity;
+            Test.Active = true;
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="id"></param>
         /// <param name="version"></param>
-        public TestCommand(TestDTO entity, Guid id, int version, DateTime? timestamp) : base(id, version, CommandState.Removed)
+        public TestCommand(TestDto entity, Guid id, int version, bool active) : base(id, version, Commandstates.Removed)
         {
             Test = entity;
+            Test.Active = active;
         }
 
-        public TestDTO Test { get; private set; }
+        public TestDto Test { get; private set; }
     }
 }

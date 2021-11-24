@@ -14,7 +14,7 @@ namespace Microservice.Companion.Controllers.Events.Tester
         /// 
         /// </summary>
         /// <param name="entity"></param>
-        public TestEvent(TestDTO entity) : base(Guid.Empty, 0, DateTime.Now, EventState.Added)
+        public TestEvent(TestDto entity) : base(Guid.Empty, 0, DateTime.Now, Eventstates.Added)
         {
             Test = entity;
         }
@@ -24,7 +24,7 @@ namespace Microservice.Companion.Controllers.Events.Tester
         /// <param name="entity"></param>
         /// <param name="aggregateID"></param>
         /// <param name="version"></param>
-        public TestEvent(TestDTO entity, Guid aggregateID, int version) : base(aggregateID, version, DateTime.Now, EventState.Changed)
+        public TestEvent(TestDto entity, Guid aggregateID, int version) : base(aggregateID, version, DateTime.Now, Eventstates.Changed)
         {
             Test = entity;
         }
@@ -33,11 +33,11 @@ namespace Microservice.Companion.Controllers.Events.Tester
         /// </summary>
         /// <param name="aggregateID"></param>
         /// <param name="version"></param>
-        public TestEvent(TestDTO entity, Guid aggregateID, int version, DateTime? timestamp) : base(aggregateID, version, DateTime.Now, EventState.Removed)
+        public TestEvent(TestDto entity, Guid aggregateID, int version, bool active) : base(aggregateID, version, DateTime.Now, Eventstates.Removed)
         {
             Test = entity;
         }
 
-        public TestDTO Test { get; internal set; }
+        public TestDto Test { get; internal set; }
     }
 }

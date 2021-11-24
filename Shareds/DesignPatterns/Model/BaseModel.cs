@@ -13,6 +13,6 @@ namespace Shareds.DesignPatterns.Model
         /// <summary>
         /// A unique, system-generated key that identifies in the system.
         /// </summary>
-        public Guid ID { get; set; }
+        public virtual Guid ID { get; set; }
     }
 }

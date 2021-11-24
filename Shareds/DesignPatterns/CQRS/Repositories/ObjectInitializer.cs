@@ -28,13 +28,7 @@ namespace Shareds.DesignPatterns.CQRS.Repositories
         /// <param name="command"></param>
         public void InitializeObject(TCommandBus command)
         {
-            try
-            {
-                SeedAsync(command);
-            }
-            catch (Exception)
-            {
-            }
+            SeedAsync(command);
         }
     }
 }

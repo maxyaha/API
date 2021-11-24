@@ -7,8 +7,9 @@ namespace Shareds.DesignPatterns.CQRS.Commands
     /// 
     /// </summary>
     [Flags]
-    public enum CommandState
+    public enum Commandstates
     {
+        None = 0,
         /// <summary>
         /// 
         /// </summary>
@@ -27,7 +28,7 @@ namespace Shareds.DesignPatterns.CQRS.Commands
     /// </summary>
     public class Command : ICommand
     {
-        public Command(Guid id, int version, CommandState state)
+        public Command(Guid id, int version, Commandstates state)
         {
             ID = id;
             Version = version;
@@ -37,7 +38,7 @@ namespace Shareds.DesignPatterns.CQRS.Commands
         /// <summary>
         /// 
         /// </summary>
-        public CommandState State { get; private set; }
+        public Commandstates State { get; private set; }
         /// <summary>
         /// 
         /// </summary>

@@ -3,6 +3,7 @@ using System.Text;
 using Microservice.Application.AppStart;
 using Microservice.DataAccress.Events;
 using Microservice.DataAccress.Features;
+using Microservice.DataAccress.IPD;
 using Microservice.DataAccress.Tester;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,13 +26,13 @@ namespace Microservice.Application.AppStart
 
             if (services == null) throw new ArgumentNullException(nameof(services));
 
-            services.AddDbContext<TesterStoreContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("EventConnection")));
+            var connectionstring = configuration.GetConnectionString("EventConnection");
 
-         
+            services.AddDbContext<TesterStoreContext>(o => o.UseSqlServer(connectionstring), ServiceLifetime.Transient);
+            services.AddDbContext<EventStoreContext>(o => o.UseSqlServer(connectionstring), ServiceLifetime.Transient);
+            services.AddDbContext<IpdStoreContext>(o => o.UseSqlServer(connectionstring), ServiceLifetime.Transient);
 
-            services.AddDbContext<EventStoreContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("EventConnection")));
+       
         }
     }
 }

@@ -1,0 +1,67 @@
+   public async Task<HttpResponseObject> image()
+        {
+            string strm = "iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAMAAABrrFhUAAAC01BMVEVHcExKw0NKwEWA/4BKwkRLv0RKwURJwURJwURKwURAv0BKwURVqlVJtkkA/wBKwURKwURKwURLwUVKwUNKwURKwERKwURKwURKwURKwURKwURKwUQzzDNMwENLwURJyElKwURVxjlKwURJwURNzE1Qv0BKwURKwkRKwURKv0BJwklLwEVKwURLwENLw0RKwURKwURJwEZKwURJwURKwENKwENKwURMv0RJwkNKwURKwURGxUZJwUNNxERV1VVKwUVMwkJKwURKwURJwkNKwkREu0RKwURKwURLw0ZKwURNv0BKwURLwURGuUZJwUZMvUJIwENIv0hJwUVKwkRHwkdKwURKwURJwERKwURKwURLw0tLwERLv0ZNwkJKwURJwkRKv0VKwURLwEVOxEVKwURJwUNKv0VKwEVLwkVKwUNLwENKwENMwEVKwkVLwUROvENJwURKwUVJwURJwERKwkVKwENOxDtKwURLwEVIxEFKwURKwkRLwURJv0BKv0NNwUZKwUVKwURMwUVKwENLwUVKwUVKwURKwURIwkVJwUVKwURLwURJwkRJwURKwkRKwURKwkRKwURRvENJwURKwUZMw0dLwUJLwUNKwURLwkRKwURKwURKwUVJwkNLwURLwURJwkNKwkRLwURAv0BHv0dKwURLwUNNv0ZKwURKwUVKwURKwURJwURKvUJKwURKwENHxkdLwkRKwUVJwkVKwUVKwkVHxEFLwENKwURLwkRKwERKwURLwkRLwURKwUVJwUNKwEVKwUVJv0RKwERJwERKwERKwkNJwURKwURJwURLwEVIv0RJwERKwkRKwURKwERJwEJKwURKwUNLwUNKwURJwkNKwURKwkRJwkVLwEVGwUZKwURJwEVIwkNJwUVKwUNKwkRJwENJwURKw0NJvUJJwkRAv0BJwURLwURLwURKv0JKwUNKwERKwUNKwURLwURKwURI4LW+AAAA8HRSTlMAJlkCqkT8iOWlCP0DBwH2/uh3wYCz+O335/v6BTnzDt4J3ewKEC3g7xgVq6lBIubwTdEx0G6DQIHpyhZXHga6Nr7xUNwP4cIzzBT1dAtCGzUgRk8Z9PmSwLARbSwy2b8wfIIa8q40hlyyakVRYLwXxm+xaWRyDaF+J+5T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";
+
+            //this is a simple white background image
+            var myfilename = string.Format(@"{0}", Guid.NewGuid());
+
+            //Generate unique filename
+            string filepath = @"C:\Users\Max\Desktop\CN Screen\" + myfilename + ".jpeg";
+            var bytess = Convert.FromBase64String(strm);
+            using (var imageFile = new FileStream(filepath, FileMode.Create))
+            {
+                imageFile.Write(bytess, 0, bytess.Length);
+                imageFile.Flush();
+            }
+
+            message.Content = filepath;
+            return message;
+
+        }
+
+ 
+        public async Task<HttpResponseObject> image([FromBody]string base64)
+        {
+
+            //var bytes = Convert.FromBase64String(base64);// a.base64image 
+            ////or full path to file in temp location
+            ////var filePath = Path.GetTempFileName();
+
+            //// full path to file in current project location
+            //string filedir = Path.Combine(Directory.GetCurrentDirectory(), "NewFolder");
+            //Debug.WriteLine(filedir);
+            //Debug.WriteLine(Directory.Exists(filedir));
+            //if (!Directory.Exists(filedir))
+            //{ //check if the folder exists;
+            //    Directory.CreateDirectory(filedir);
+            //}
+            //string file = Path.Combine(filedir, "a.jpg");
+            //Debug.WriteLine(file);
+            ////Debug.WriteLine(File.Exists(file));
+
+
+            //if (bytes.Length > 0)
+            //{
+            //    using (var stream = new FileStream(file, FileMode.Create))
+            //    {
+            //        stream.Write(bytes, 0, bytes.Length);
+            //        stream.Flush();
+            //    }
+            //}
+
+
+            var myfilename = string.Format(@"{0}", Guid.NewGuid());
+
+            //Generate unique filename
+            string filepath = @"C:\Users\Max\Desktop\CN Screen\" + myfilename + ".jpeg";
+            byte[] bytess = Convert.FromBase64String(base64);
+            using (var imageFile = new FileStream(filepath, FileMode.Create))
+            {
+                imageFile.Write(bytess, 0, bytess.Length);
+                imageFile.Flush();
+            }
+
+            message.Content = filepath;
+            return message;
+
+        }

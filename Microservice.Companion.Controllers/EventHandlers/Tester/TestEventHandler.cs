@@ -35,7 +35,7 @@ namespace Microservice.Companion.Controllers.EventHandlers.Tester
         /// </summary>
         /// <param name="handle"></param>
         /// <returns></returns>
-        public async Task Execute(TestEvent handle)
+        public async Task ExecuteAsync(TestEvent handle)
         {
             this.logger.Trace(string.Concat(handle.State.ToString(), "TestEvent"), handle);
 
@@ -44,7 +44,7 @@ namespace Microservice.Companion.Controllers.EventHandlers.Tester
 
             switch (handle.State)
             {
-                case EventState.Added when entity is null:
+                case Eventstates.Added when entity is null:
                     handle.Test.ID = handle.AggregateID;
                     handle.Test.Version = handle.Version;
                     handle.Test.CreatedDate = handle.Timestamp;
@@ -54,7 +54,7 @@ namespace Microservice.Companion.Controllers.EventHandlers.Tester
 
                     await this.repository.Create(entity).ConfigureAwait(false);
                     break;
-                case EventState.Changed:
+                case Eventstates.Changed:
                     handle.Test.Version = handle.Version;
                     handle.Test.ModifiedDate = handle.Timestamp;
 
@@ -62,7 +62,7 @@ namespace Microservice.Companion.Controllers.EventHandlers.Tester
 
                     await this.repository.Update(entity).ConfigureAwait(false);
                     break;
-                case EventState.Removed:
+                case Eventstates.Removed:
                     handle.Test.Version = handle.Version;
                     handle.Test.ModifiedDate = handle.Timestamp;
 

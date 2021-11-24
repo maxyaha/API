@@ -13,6 +13,6 @@ namespace Shareds.DesignPatterns.CQRS.Commands.Interfaces
         /// </summary>
         /// <param name="handle"></param>
         /// <returns></returns>
-        Task Execute(TCommand handle);
+        Task ExecuteAsync(TCommand handle);
     }
 }

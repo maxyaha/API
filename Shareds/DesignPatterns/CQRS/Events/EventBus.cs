@@ -12,7 +12,7 @@ namespace Shareds.DesignPatterns.CQRS.Events
         /// <summary>
         /// 
         /// </summary>
-        private IEventHandlerFactory @event;
+        private readonly IEventHandlerFactory @event;
 
         public EventBus(IEventHandlerFactory @event)
         {
@@ -32,7 +32,7 @@ namespace Shareds.DesignPatterns.CQRS.Events
 
             foreach (var handler in handlers)
             {
-                tasks.Add(handler.Execute(@event));
+                tasks.Add(handler.ExecuteAsync(@event));
             }
             await Task.WhenAll(tasks);
         }

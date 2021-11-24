@@ -49,7 +49,10 @@ namespace Shareds.DesignPatterns.CQRS.Repositories
                     case AggregateRoot entity when version == entity.Version:
                         this.manager.Save(aggregate).Wait();
                         break;
-                    default:
+                    case AggregateRoot entity when aggregate.Version == version && entity.Version == 0:
+                        this.manager.Save(aggregate).Wait();
+                        break;
+                  default:
                         throw new ConcurrencyException(string.Format("Aggregate {0} has been previously modified", aggregate.ID));
                 }
             }
@@ -77,12 +80,11 @@ namespace Shareds.DesignPatterns.CQRS.Repositories
                 case null:
                     events = await this.manager.GetEvents(id).ConfigureAwait(false);
                     break;
-                default:
-                    events = null;
-                    break;
+             
+
             }
             await Task.Run(() => @object.LoadsFromHistory(events)).ConfigureAwait(false);
-
+            
             return @object;
         }
     }

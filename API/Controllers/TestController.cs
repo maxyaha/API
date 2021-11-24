@@ -7,7 +7,10 @@ using Microservice.Application.Entities;
 using Microservice.Application.Entities.Tester.Maps;
 using Microservice.Application.Entities.Tester.Models;
 using Microservice.BusinessLogic;
+using Microservice.BusinessLogic.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Shareds.Logging.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,43 +21,98 @@ namespace API.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
+        private IActionResult actor;
         private readonly ILogger logger;
         private readonly ITestManager manager;
-
-        private HttpResponseObject message =
-            //
-            new HttpResponseObject(HttpStatusCode.OK);
-
+        private readonly IConfiguration _config;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="command"></param>
         /// <param name="logger"></param>
-        public TestController(ITestManager manager, ILogger logger)
+        public TestController(IConfiguration config, ITestManager manager, ILogger logger)
         {
             this.manager = manager;
             this.logger = logger;
+            _config = config;
         }
+
+
+        private HttpResponseObject message =
+            //
+            new HttpResponseObject(HttpStatusCode.OK);
+
         // GET: api/<TestController>
         [HttpGet]
-        public async Task<HttpResponseObject> Get()
+    //    [ProducesResponseType(typeof(Test), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Get()
         {
-            var queries = await manager.Test().ConfigureAwait(false);
+            List<Test> view = null;
+            try
+            {
+                #region Authorize
+                /// var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
 
-            var result = queries.Select(new TestMapper().ToPresentationModel);
-            message.Content = result;
-            return message;
+                ///  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
+
+                ///if (token == null)
+                ///{
+                ///    actor = new UnauthorizedResult();
+                ///}
+                ///</summary>
+                #endregion
+
+                var queries = await manager.Test().ConfigureAwait(false);
+                view = queries.Select(new TestMapper().ToPresentationModel).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(string.Format("{0}: ", nameof(ex)), ex);
+            }
+            finally
+            {
+                Request.Method = HttpMethods.Get;
+                Response.Success(ref this.actor, view, Request);
+            }
+            return actor;
         }
 
         // GET api/<TestController>/5
         [HttpGet("{id}")]
-        public async Task<HttpResponseObject> Get (Guid id)
+   [ProducesResponseType(typeof(Test), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Get(Guid id)
         {
-            var query = await manager.Test(id).ConfigureAwait(false);
+            Test view = null;
+            try
+            {
+                #region Authorize
+                /// var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
 
-            var result = new TestMapper().ToPresentationModel(query);
-            message.Content = result;
-            return message;
+                ///  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
+
+                ///if (token == null)
+                ///{
+                ///    actor = new UnauthorizedResult();
+                ///}
+                ///</summary>
+                #endregion
+
+                var query = await manager.Test(id).ConfigureAwait(false);
+                view = new TestMapper().ToPresentationModel(query);
+
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(string.Format("{0}: ", nameof(ex)), ex);
+            }
+            finally
+            {
+               // Request.Method = HttpMethods.Get;
+                Response.Success(ref this.actor, view, Request);
+            }
+            return actor;
+          
         }
 
         // POST api/<TestController>
@@ -67,15 +125,21 @@ namespace API.Controllers
         }
 
         //// PUT api/<TestController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPut("{id}")]
+        public async Task<HttpResponseObject> Put(Guid id, [FromBody] Test entity)
+        {
+            var test = new TestMapper().ToDataTransferObject(entity);
+            await manager.UpdateTest(id, test).ConfigureAwait(false);
+            return message;
+        }
 
         //// DELETE api/<TestController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpDelete("{id}")]
+        public async Task<HttpResponseObject> Delete(Guid id, [FromBody] Test entity)
+        {
+            var test = new TestMapper().ToDataTransferObject(entity);
+            await manager.DeleteTest(id, test).ConfigureAwait(false);
+            return message;
+        }
     }
 }
