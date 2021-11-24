@@ -117,29 +117,110 @@ namespace API.Controllers
 
         // POST api/<TestController>
         [HttpPost]
-        public async Task<HttpResponseObject> Post([FromBody] Test entity)
+        public async Task<IActionResult> Post([FromBody] Test entity)
         {
-            var test = new TestMapper().ToDataTransferObject(entity);
-            await manager.AddTest(test).ConfigureAwait(false);
-            return message;
+            Test view = null;
+            try
+            {
+                #region Authorize
+                /// var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
+
+                ///  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
+
+                ///if (token == null)
+                ///{
+                ///    actor = new UnauthorizedResult();
+                ///}
+                ///</summary>
+                #endregion
+
+                var test = new TestMapper().ToDataTransferObject(entity);
+                view = new TestMapper().ToPresentationModel(await manager.AddTest(test).ConfigureAwait(false));
+
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(string.Format("{0}: ", nameof(ex)), ex);
+            }
+            finally
+            {
+                // Request.Method = HttpMethods.Get;
+                Response.Success(ref this.actor, view, Request);
+            }
+            return actor;
+          
         }
 
         //// PUT api/<TestController>/5
         [HttpPut("{id}")]
-        public async Task<HttpResponseObject> Put(Guid id, [FromBody] Test entity)
+        public async Task<IActionResult> Put(Guid id, [FromBody] Test entity)
         {
-            var test = new TestMapper().ToDataTransferObject(entity);
-            await manager.UpdateTest(id, test).ConfigureAwait(false);
-            return message;
+            Test view = null;
+            try
+            {
+                #region Authorize
+                /// var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
+
+                ///  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
+
+                ///if (token == null)
+                ///{
+                ///    actor = new UnauthorizedResult();
+                ///}
+                ///</summary>
+                #endregion
+
+                var test = new TestMapper().ToDataTransferObject(entity);
+                view = new TestMapper().ToPresentationModel(await manager.UpdateTest(id, test).ConfigureAwait(false));
+
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(string.Format("{0}: ", nameof(ex)), ex);
+            }
+            finally
+            {
+                // Request.Method = HttpMethods.Get;
+                Response.Success(ref this.actor, view, Request);
+            }
+            return actor;
         }
 
         //// DELETE api/<TestController>/5
         [HttpDelete("{id}")]
-        public async Task<HttpResponseObject> Delete(Guid id, [FromBody] Test entity)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var test = new TestMapper().ToDataTransferObject(entity);
-            await manager.DeleteTest(id, test).ConfigureAwait(false);
-            return message;
+            Test view = null;
+            try
+            {
+                #region Authorize
+                /// var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
+
+                ///  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
+
+                ///if (token == null)
+                ///{
+                ///    actor = new UnauthorizedResult();
+                ///}
+                ///</summary>
+                #endregion
+
+                view = new TestMapper().ToPresentationModel(await manager.DeleteTest(id).ConfigureAwait(false));
+
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(string.Format("{0}: ", nameof(ex)), ex);
+            }
+            finally
+            {
+                // Request.Method = HttpMethods.Get;
+                Response.Success(ref this.actor, view, Request);
+            }
+            return actor;
+
+           
+      
         }
     }
 }

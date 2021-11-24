@@ -1,5 +1,4 @@
 using System;
-using Microservice.Application;
 using Microservice.Application.AppStart;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Shareds.DesignPatterns.IoC;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API
+namespace Microservice.Application
 {
     public class Startup
     {

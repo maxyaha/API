@@ -23,7 +23,7 @@ namespace Microservice.BusinessLogic
         Task<TestDto> Test(Guid? id);
         Task<TestDto> AddTest(TestDto entity);
         Task<TestDto> UpdateTest(Guid id,TestDto entity);
-        Task<TestDto> DeleteTest(Guid id,TestDto entity);
+        Task<TestDto> DeleteTest(Guid id);
 
     }
 
@@ -63,7 +63,7 @@ namespace Microservice.BusinessLogic
             handle = new TestCommand(entity);
             await this.command.Send(handle as TestCommand).ConfigureAwait(false);
            
-            return null;
+            return entity;
         }
 
         public async Task<TestDto> UpdateTest(Guid id, TestDto entity)
@@ -81,17 +81,20 @@ namespace Microservice.BusinessLogic
             handle = new TestCommand(entity, id, entity.Version);
             await this.command.Send(handle as TestCommand).ConfigureAwait(false);
 
-            return null;
+            return entity;
         }
 
-        public async Task<TestDto> DeleteTest(Guid id, TestDto entity)
+        public async Task<TestDto> DeleteTest(Guid id)
         {
+            var query = await this.repoTest.GetSingleAsync(x => x.ID == id).ConfigureAwait(false);
+            var map = new TestMapper().ToDataTransferObject(query);
+
             Command handle;
 
-            handle = new TestCommand(entity,id,entity.Version,false);
+            handle = new TestCommand(map, id, map.Version,false);
             await this.command.Send(handle as TestCommand).ConfigureAwait(false);
 
-            return null;
+            return map;
         }
     }
 }
