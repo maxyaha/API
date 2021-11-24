@@ -20,7 +20,7 @@ using Shareds.Logging;
 using Shareds.Logging.Interfaces;
 using StructureMap;
 
-namespace Microservice.Application.AppStart
+namespace API.AppStart
 {
     public static class BootstrapConfig
     {

@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microservice.Application.AppStart
+namespace API.AppStart
 {
     public static class DependencyInjectionConfig
     {

@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace Microservice.Application.AppStart
+namespace API.AppStart
 {
     public static class SwaggerConfig
     {

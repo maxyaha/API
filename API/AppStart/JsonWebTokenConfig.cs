@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Microservice.Application.AppStart
+namespace API.AppStart
 {
     public static class JsonWebTokenConfig
     {

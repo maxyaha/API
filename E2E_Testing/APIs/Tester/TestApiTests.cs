@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using E2E_Testing.Brokers;
+using API.E2E_Testing.Brokers;
 using E2E_Testing.Models;
 using FluentAssertions;
 using Tynamix.ObjectFiller;
 using Xunit;
 
-namespace E2E_Testing.APIs.Tester
+namespace API.E2E_Testing.APIs.Tester
 {
     [Collection(nameof(ApiTestCollection))]
     public class TestApiTests

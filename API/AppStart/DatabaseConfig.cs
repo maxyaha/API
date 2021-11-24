@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Text;
-using Microservice.Application.AppStart;
 using Microservice.DataAccress.Events;
-using Microservice.DataAccress.Features;
 using Microservice.DataAccress.IPD;
 using Microservice.DataAccress.Tester;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Shareds.DesignPatterns.IoC;
 
-namespace Microservice.Application.AppStart
+namespace API.AppStart
 {
     public static class DatabaseConfig
     {

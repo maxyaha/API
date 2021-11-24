@@ -1,7 +1,7 @@
 ﻿using Microservice.Companion.Controllers;
 using Shareds.DesignPatterns.CQRS.Commands;
 
-namespace Microservice.Application.AppStart
+namespace API.AppStart
 {
     /// <summary>
     /// 

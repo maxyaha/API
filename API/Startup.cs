@@ -1,15 +1,13 @@
 using System;
-using Microservice.Application.AppStart;
+using API.AppStart;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Shareds.DesignPatterns.IoC;
-using Microsoft.AspNetCore.Mvc;
 
-namespace Microservice.Application
+namespace API
 {
     public class Startup
     {
@@ -46,10 +44,7 @@ namespace Microservice.Application
 
             services.AddDependencyInjectionConfiguration();
             return DependencyInjection.Container.GetInstance<IServiceProvider>();
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-            //});
+   
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
