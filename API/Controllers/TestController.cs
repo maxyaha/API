@@ -135,7 +135,8 @@ namespace API.Controllers
                 #endregion
 
                 var test = new TestMapper().ToDataTransferObject(entity);
-                view = new TestMapper().ToPresentationModel(await manager.AddTest(test).ConfigureAwait(false));
+                var query = await manager.AddTest(test).ConfigureAwait(false);
+                view = new TestMapper().ToPresentationModel(query);
 
             }
             catch (Exception ex)
@@ -171,7 +172,8 @@ namespace API.Controllers
                 #endregion
 
                 var test = new TestMapper().ToDataTransferObject(entity);
-                view = new TestMapper().ToPresentationModel(await manager.UpdateTest(id, test).ConfigureAwait(false));
+                var query = await manager.UpdateTest(id,test).ConfigureAwait(false);
+                view = new TestMapper().ToPresentationModel(query);
 
             }
             catch (Exception ex)
@@ -205,8 +207,8 @@ namespace API.Controllers
                 ///</summary>
                 #endregion
 
-                view = new TestMapper().ToPresentationModel(await manager.DeleteTest(id).ConfigureAwait(false));
-
+                var query = await manager.DeleteTest(id).ConfigureAwait(false);
+                view = new TestMapper().ToPresentationModel(query);
             }
             catch (Exception ex)
             {
