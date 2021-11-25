@@ -20,29 +20,16 @@ using Shareds.Logging;
 using Shareds.Logging.Interfaces;
 using StructureMap;
 
-namespace API.AppStart
+namespace API.Extensions
 {
-    public static class BootstrapConfig
+    public static class StructureMapServiceCollectionExtensions
     {
         /// <summary>
         /// 
         /// </summary>
-        public static void RegisterBootstraps(this IServiceCollection services)
+        public static IServiceCollection RegisterBootstraps(this IServiceCollection services)
         {
-            //services.AddScoped<IEventStoreContext, EventStoreContext>();
-
-            //// Application
-            //services.AddScoped<IEventManager, EventManager>();
-            //services.AddScoped<IEventBus, EventBus>();
-            //services.AddScoped<IEventHandlerFactory, EventHandlerFactory>();
-            //services.AddScoped<ICommandBus, CommandBus>();
-            //services.AddScoped<ICommandHandlerFactory, CommandHandlerFactory>();
-          
-            //services.AddScoped<ITestRepositoryAsync, TestRepositoryAsync>();
-            //services.AddScoped<ITestManager, TestManager>();
-            //services.AddScoped<ILogger, Logger>();
-            //services.AddScoped<ITesterStoreContext, TesterStoreContext>();
-
+            
  
             DependencyInjection.Register(register =>
             {
@@ -106,6 +93,8 @@ namespace API.AppStart
 
                 register.Populate(services);
             });
+            return services;
+
         }
     }
 }

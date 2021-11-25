@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace API.AppStart
+namespace API.Extensions
 {
     public static class DependencyInjectionConfig
     {
@@ -10,7 +10,7 @@ namespace API.AppStart
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
-            BootstrapConfig.RegisterBootstraps(services);
+            StructureMapServiceCollectionExtensions.RegisterBootstraps(services);
         }
     }
 }

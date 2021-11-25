@@ -15,8 +15,9 @@ using Shareds.Logging.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace API.Controllers
+namespace API.Controllers.Tester.v1
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class TestController : ControllerBase
@@ -37,14 +38,9 @@ namespace API.Controllers
             _config = config;
         }
 
-
-        private HttpResponseObject message =
-            //
-            new HttpResponseObject(HttpStatusCode.OK);
-
         // GET: api/<TestController>
         [HttpGet]
-    //    [ProducesResponseType(typeof(Test), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Test), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get()
         {
             List<Test> view = null;
@@ -78,9 +74,9 @@ namespace API.Controllers
             return actor;
         }
 
-        // GET api/<TestController>/5
+        // GET api/<TestController>/{id}
         [HttpGet("{id}")]
-   [ProducesResponseType(typeof(Test), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Test), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get(Guid id)
         {
             Test view = null;
@@ -108,15 +104,16 @@ namespace API.Controllers
             }
             finally
             {
-               // Request.Method = HttpMethods.Get;
+                // Request.Method = HttpMethods.Get;
                 Response.Success(ref this.actor, view, Request);
             }
             return actor;
-          
+
         }
 
         // POST api/<TestController>
         [HttpPost]
+        [ProducesResponseType(typeof(Test), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Post([FromBody] Test entity)
         {
             Test view = null;
@@ -149,30 +146,31 @@ namespace API.Controllers
                 Response.Success(ref this.actor, view, Request);
             }
             return actor;
-          
+
         }
 
-        //// PUT api/<TestController>/5
+        //// PUT api/<TestController>/
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(Test), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Put(Guid id, [FromBody] Test entity)
         {
             Test view = null;
             try
             {
                 #region Authorize
-                /// var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
+                // var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
 
-                ///  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
+                //  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
 
-                ///if (token == null)
-                ///{
-                ///    actor = new UnauthorizedResult();
-                ///}
-                ///</summary>
+                //if (token == null)
+                //{
+                //    actor = new UnauthorizedResult();
+                //}
+             
                 #endregion
 
                 var test = new TestMapper().ToDataTransferObject(entity);
-                var query = await manager.UpdateTest(id,test).ConfigureAwait(false);
+                var query = await manager.UpdateTest(id, test).ConfigureAwait(false);
                 view = new TestMapper().ToPresentationModel(query);
 
             }
@@ -188,27 +186,27 @@ namespace API.Controllers
             return actor;
         }
 
-        //// DELETE api/<TestController>/5
+        //// DELETE api/<TestController>/
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(Test), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            Test view = null;
             try
             {
                 #region Authorize
-                /// var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
+                // var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
 
-                ///  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
+                //  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
 
-                ///if (token == null)
-                ///{
-                ///    actor = new UnauthorizedResult();
-                ///}
-                ///</summary>
+                //if (token == null)
+                //{
+                //    actor = new UnauthorizedResult();
+                //}
+                //</summary>
                 #endregion
 
-                var query = await manager.DeleteTest(id).ConfigureAwait(false);
-                view = new TestMapper().ToPresentationModel(query);
+                await manager.DeleteTest(id).ConfigureAwait(false);
+                
             }
             catch (Exception ex)
             {
@@ -217,12 +215,12 @@ namespace API.Controllers
             finally
             {
                 // Request.Method = HttpMethods.Get;
-                Response.Success(ref this.actor, view, Request);
+                Response.Success(ref this.actor, null, Request);
             }
             return actor;
 
-           
-      
+
+
         }
     }
 }

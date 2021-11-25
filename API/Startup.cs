@@ -1,5 +1,6 @@
 using System;
 using API.AppStart;
+using API.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -34,15 +35,13 @@ namespace API
 
             services.AddControllers();
             services.AddCors();
-
             services.AddDatabaseConfiguration(Configuration);
-
-            services.RegisterBootstraps();
-
-
+            services.AddBasic();
+            services.AddBearer();
+            services.AddApiVersion();
             services.AddSwaggerConfiguration();
-
             services.AddDependencyInjectionConfiguration();
+
             return DependencyInjection.Container.GetInstance<IServiceProvider>();
    
         }
@@ -67,7 +66,7 @@ namespace API
                 c.AllowAnyOrigin();
             });
 
-            // NetDevPack.Identity dependency
+            //app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
