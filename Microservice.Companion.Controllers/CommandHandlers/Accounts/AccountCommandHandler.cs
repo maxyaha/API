@@ -92,7 +92,7 @@ namespace Microservice.Companion.Controllers.CommandHandlers.Accounts
         /// <returns></returns>
         private bool Equals(AccountRoot source, AccountCommand target)
         {
-            return source.Account.Username == target.Account.Username;
+            return source.Account.Password == target.Account.Password;
         }
     }
 }

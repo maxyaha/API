@@ -40,7 +40,6 @@ namespace API.Controllers.Accounts.v1
         }
 
 
-        // GET api/<AccountController>/{id}
         [HttpPost]
         [Route("Login")]
         [ProducesResponseType(typeof(Account), (int)HttpStatusCode.OK)]
@@ -58,16 +57,13 @@ namespace API.Controllers.Accounts.v1
                     jwt.UserID = query.Username;
                     jwt.Token = authorize.GenerateJSONWebToken(jwt);
 
+                    view = jwt;
                 }
-                //else
-                //{
-                //    message.ReasonPhrase = null;
-                //    message.StatusCode = HttpStatusCode.NoContent;
-                //    message.Content = null;
-                //    break;
-                //}
+                else
+                {
+                    actor = new NoContentResult();
+                }
 
-                view = jwt;
 
             }
             catch (Exception ex)
@@ -77,13 +73,13 @@ namespace API.Controllers.Accounts.v1
             finally
             {
                 Request.Method = HttpMethods.Get;
-                Response.Success(ref this.actor, view, Request);
+                Request.Success(ref this.actor, view);
+                //Response.Success(ref this.actor, view, Request);
             }
             return actor;
 
         }
 
-        // POST api/<AccountController>
         [HttpPost]
         [Route("Register")]
         [ProducesResponseType(typeof(Account), (int)HttpStatusCode.OK)]
@@ -92,7 +88,7 @@ namespace API.Controllers.Accounts.v1
             Account view = null;
             try
             {
-              
+
 
                 var Account = new AccountMapper().ToDataTransferObject(entity);
                 var query = await manager.AddAccounts(Account).ConfigureAwait(false);
@@ -113,28 +109,29 @@ namespace API.Controllers.Accounts.v1
         }
 
         //// PUT api/<AccountController>/
-        [HttpPut("{id}")]
+        [HttpPut]
+        [Route("ChangePassword")]
         [ProducesResponseType(typeof(Account), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Put(Guid id, [FromBody] Account entity)
+        public async Task<IActionResult> Put([FromBody] ResetPassword entity)
         {
             Account view = null;
             try
             {
                 #region Authorize
-                // var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
+                var authorize = new CustomAuthorize(_config["AppSettings:Secret"],
+                                                    _config["AppSettings:Issuer"]);
 
-                //  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
+                var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
 
-                //if (token == null)
-                //{
-                //    actor = new UnauthorizedResult();
-                //}
-             
+                if (token == null)
+                {
+                    actor = new UnauthorizedResult();
+                }
+
                 #endregion
-
-                var Account = new AccountMapper().ToDataTransferObject(entity);
-                var query = await manager.UpdateAccounts(id, Account).ConfigureAwait(false);
-                view = new AccountMapper().ToPresentationModel(query);
+                var query = await manager.Accounts(token.UserID).ConfigureAwait(false);
+                query.Password = entity.Password;
+                await manager.UpdateAccounts(query).ConfigureAwait(false);
 
             }
             catch (Exception ex)
@@ -149,6 +146,6 @@ namespace API.Controllers.Accounts.v1
             return actor;
         }
 
-       
+
     }
 }

@@ -18,10 +18,10 @@ namespace Microservice.BusinessLogic
     public interface IAccountManager
     {
 
-        Task<IEnumerable<AccountDto>> Accounts();
+        Task<AccountDto> Accounts(string username);
         Task<AccountDto> Accounts(string username, string password);
         Task<AccountDto> AddAccounts(AccountDto entity);
-        Task<AccountDto> UpdateAccounts(Guid id,AccountDto entity);
+        Task<AccountDto> UpdateAccounts(AccountDto entity);
         Task<AccountDto> DeleteAccounts(Guid id);
 
     }
@@ -40,15 +40,18 @@ namespace Microservice.BusinessLogic
 
         }
 
-        public async Task<IEnumerable<AccountDto>> Accounts()
+        public async Task<AccountDto> Accounts(string username)
         {
-            var queries = await this.repoAccounts.GetAllAsync().ConfigureAwait(false);
+            var query = await this.repoAccounts.GetSingleAsync(x =>
+                       x.Username.ToLower() == username.ToLower() &&
+                       x.Active
+                       ).ConfigureAwait(false);
 
-            return queries.Select(new AccountMapper().ToDataTransferObject);
+            return new AccountMapper().ToDataTransferObject(query);
         }
-        public async Task<AccountDto> Accounts(string username,string password)
+        public async Task<AccountDto> Accounts(string username, string password)
         {
-            var query = await this.repoAccounts.GetSingleAsync(x => 
+            var query = await this.repoAccounts.GetSingleAsync(x =>
                         x.Username.ToLower() == username.ToLower() &&
                         x.Password.Contains(password) &&
                         x.Active
@@ -63,23 +66,15 @@ namespace Microservice.BusinessLogic
 
             handle = new AccountCommand(entity);
             await this.command.Send(handle as AccountCommand).ConfigureAwait(false);
-           
+
             return entity;
         }
 
-        public async Task<AccountDto> UpdateAccounts(Guid id, AccountDto entity)
+        public async Task<AccountDto> UpdateAccounts(AccountDto entity)
         {
-            var query = await this.repoAccounts.GetSingleAsync(x => x.ID == id).ConfigureAwait(false);
-            var map = new AccountMapper().ToDataTransferObject(query);
-
-            entity.ModifiedDate = map.ModifiedDate;
-            entity.CreatedDate = map.CreatedDate;
-            entity.Version = map.Version;
-            
-
             Command handle;
 
-            handle = new AccountCommand(entity, id, entity.Version);
+            handle = new AccountCommand(entity, entity.ID, entity.Version);
             await this.command.Send(handle as AccountCommand).ConfigureAwait(false);
 
             return entity;
@@ -92,7 +87,7 @@ namespace Microservice.BusinessLogic
 
             Command handle;
 
-            handle = new AccountCommand(map, id, map.Version,false);
+            handle = new AccountCommand(map, id, map.Version, false);
             await this.command.Send(handle as AccountCommand).ConfigureAwait(false);
 
             return map;

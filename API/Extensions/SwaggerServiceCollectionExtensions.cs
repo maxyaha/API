@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace API.Extensions
@@ -53,17 +57,42 @@ namespace API.Extensions
             });
         }
 
-        public static void UseSwaggerSetup(this IApplicationBuilder app)
+        public static void UseSwaggerSetup(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {
             if (app == null) throw new ArgumentNullException(nameof(app));
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
+            app.UseSwaggerUI(o => o.Endpoint(provider));
+        }
+
+        private static void Endpoint(this SwaggerUIOptions options, IApiVersionDescriptionProvider provider)
+        {
+            foreach (var description in provider.ApiVersionDescriptions.Where(o => !o.IsDeprecated))
+                options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+        }
+
+        internal class ConfigureSwaggerGenOptions : IConfigureOptions<SwaggerGenOptions>
+        {
+            private readonly IApiVersionDescriptionProvider provider;
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="provid"></param>
+            public ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provid)
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                c.DocumentTitle = "API Documentation";
-                c.DocExpansion(DocExpansion.List);
-            });
+                this.provider = provid;
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="options"></param>
+            public void Configure(SwaggerGenOptions options)
+            {
+                foreach (var description in provider.ApiVersionDescriptions.Where(o => !o.IsDeprecated))
+                    options.SwaggerDoc(description.GroupName, new OpenApiInfo() { Title = $"Core API v{description.ApiVersion}", Version = description.ApiVersion.ToString() });
+            }
         }
     }
 }
