@@ -13,6 +13,8 @@ using Microservice.Companion.Entities.Tester.Models;
 using Microservice.Application.Entities.Tester.Maps;
 using System.Collections.Generic;
 using API.Controllers.Tester.v1;
+using Bogus;
+using xUnit_Testing;
 
 namespace E2E_Testing.Controller
 {
@@ -35,6 +37,17 @@ namespace E2E_Testing.Controller
                 ControllerContext = new ControllerContext(),
             };
             _controller.ControllerContext.HttpContext = new DefaultHttpContext();
+
+            _iconfig.Setup(x => x["AppSettings:Issuer"]).Returns("Max");
+            _iconfig.Setup(x => x["AppSettings:Secret"]).Returns("ThisismySecretKey");
+
+            var faker = new Faker();
+
+            var systemId = faker.Lorem.Word();
+            var sourceIp = SourceIp.GetLocalIPAddress();
+
+            _controller.ControllerContext.HttpContext.Request.Headers["ApiUserToken"] = SourceIp.Token();
+
         }
         private Test CreateRandomTest() =>
           new Filler<Test>().Create();
