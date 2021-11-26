@@ -18,8 +18,9 @@ Microservice.DataAccress
 Add-Migration init -Context EventStoreContext
 Add-Migration init -Context FeatureStoreContext
 Add-Migration init -Context TesterStoreContext
+Add-Migration init -Context AccountStoreContext
 
 
 Update-Database -Context EventStoreContext
 Update-Database -Context TesterStoreContext
-Update-Database -Context IpdStoreContext
+Update-Database -Context AccountStoreContext

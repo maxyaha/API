@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservice.BusinessLogic"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservice.Application.Entities", "Microservice.Application.Entities\Microservice.Application.Entities.csproj", "{533B8C5B-7C51-4AEC-9BF2-299106E89E3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E2E_Testing", "E2E_Testing\E2E_Testing.csproj", "{71B1662C-6FE3-4596-A7DC-6F35BD958A71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xUnit_Testing", "E2E_Testing\xUnit_Testing.csproj", "{71B1662C-6FE3-4596-A7DC-6F35BD958A71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

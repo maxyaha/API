@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace API.AppStart
+namespace Microservice.Application.AppStart
 {
     public static class JsonWebTokenConfig
     {
@@ -39,11 +39,11 @@ namespace API.AppStart
             {
                 options.SaveToken = true;
                 options.RequireHttpsMetadata = false;
-
-                options.TokenValidationParameters.ValidateIssuerSigningKey = true;
+                options.TokenValidationParameters.ValidateIssuer = true;
+                options.TokenValidationParameters.ValidateAudience = true;
+                options.TokenValidationParameters.ValidIssuer = "Max";
+                options.TokenValidationParameters.ValidAudience = "Max";
                 options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(key);
-                options.TokenValidationParameters.ValidateIssuer = false;
-                options.TokenValidationParameters.ValidateAudience = false;
             });
 
         }

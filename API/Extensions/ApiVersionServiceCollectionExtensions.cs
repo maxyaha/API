@@ -7,6 +7,7 @@ namespace API.Extensions
 {
     
     using Test = Controllers.Tester;
+    using Account = Controllers.Accounts;
 
     public static class ApiVersionServiceCollectionExtensions
     {
@@ -32,6 +33,7 @@ namespace API.Extensions
                 // In such cases, we can opt out of this API by adding the attribute [ApiVersionNeutral].
               
                 o.Conventions.Controller<Test.v1.TestController>().HasApiVersion(new ApiVersion(1, 0));
+                o.Conventions.Controller<Account.v1.AccountController>().HasApiVersion(new ApiVersion(1, 0));
 
             });
 

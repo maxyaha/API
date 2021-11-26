@@ -1,6 +1,6 @@
 ﻿using System;
 using Microservice.DataAccress.Events;
-using Microservice.DataAccress.IPD;
+using Microservice.DataAccress.Accounts;
 using Microservice.DataAccress.Tester;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +18,7 @@ namespace API.Extensions
 
             services.AddDbContext<TesterStoreContext>(o => o.UseSqlServer(connectionstring), ServiceLifetime.Transient);
             services.AddDbContext<EventStoreContext>(o => o.UseSqlServer(connectionstring), ServiceLifetime.Transient);
-            services.AddDbContext<IpdStoreContext>(o => o.UseSqlServer(connectionstring), ServiceLifetime.Transient);
+            services.AddDbContext<AccountStoreContext>(o => o.UseSqlServer(connectionstring), ServiceLifetime.Transient);
 
        
         }

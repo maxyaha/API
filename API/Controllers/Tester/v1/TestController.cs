@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Microservice.Application.Entities;
+using Microservice.Application.AppStart;
 using Microservice.Application.Entities.Tester.Maps;
 using Microservice.Application.Entities.Tester.Models;
 using Microservice.BusinessLogic;
@@ -47,15 +47,14 @@ namespace API.Controllers.Tester.v1
             try
             {
                 #region Authorize
-                /// var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
+                var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
 
-                ///  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
+                var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
 
-                ///if (token == null)
-                ///{
-                ///    actor = new UnauthorizedResult();
-                ///}
-                ///</summary>
+                if (token == null)
+                {
+                    actor = new UnauthorizedResult();
+                }
                 #endregion
 
                 var queries = await manager.Test().ConfigureAwait(false);
@@ -83,15 +82,14 @@ namespace API.Controllers.Tester.v1
             try
             {
                 #region Authorize
-                /// var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
+                var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
 
-                ///  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
+                var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
 
-                ///if (token == null)
-                ///{
-                ///    actor = new UnauthorizedResult();
-                ///}
-                ///</summary>
+                if (token == null)
+                {
+                    actor = new UnauthorizedResult();
+                }
                 #endregion
 
                 var query = await manager.Test(id).ConfigureAwait(false);
@@ -120,15 +118,14 @@ namespace API.Controllers.Tester.v1
             try
             {
                 #region Authorize
-                /// var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
+                var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
 
-                ///  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
+                var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
 
-                ///if (token == null)
-                ///{
-                ///    actor = new UnauthorizedResult();
-                ///}
-                ///</summary>
+                if (token == null)
+                {
+                    actor = new UnauthorizedResult();
+                }
                 #endregion
 
                 var test = new TestMapper().ToDataTransferObject(entity);
@@ -158,15 +155,14 @@ namespace API.Controllers.Tester.v1
             try
             {
                 #region Authorize
-                // var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
+                var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
 
-                //  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
+                var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
 
-                //if (token == null)
-                //{
-                //    actor = new UnauthorizedResult();
-                //}
-             
+                if (token == null)
+                {
+                    actor = new UnauthorizedResult();
+                }
                 #endregion
 
                 var test = new TestMapper().ToDataTransferObject(entity);
@@ -194,19 +190,18 @@ namespace API.Controllers.Tester.v1
             try
             {
                 #region Authorize
-                // var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
+                var authorize = new CustomAuthorize(_config["AppSettings:Secret"], _config["AppSettings:Issuer"]);
 
-                //  var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
+                var token = authorize.DecodeJSONWebToken(Request.Headers["ApiUserToken"]);
 
-                //if (token == null)
-                //{
-                //    actor = new UnauthorizedResult();
-                //}
-                //</summary>
+                if (token == null)
+                {
+                    actor = new UnauthorizedResult();
+                }
                 #endregion
 
                 await manager.DeleteTest(id).ConfigureAwait(false);
-                
+
             }
             catch (Exception ex)
             {

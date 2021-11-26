@@ -28,9 +28,7 @@ namespace API
         //public void ConfigureServices(IServiceCollection services)
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            var appsettings = Configuration.GetSection("AppSettings");
-
-            // Configure strongly typed settings objects       
+            var appsettings = Configuration.GetSection("AppSettings"); 
             services.Configure<AppSettings>(appsettings);
 
             services.AddControllers();
@@ -56,9 +54,10 @@ namespace API
             }
 
             app.UseHttpsRedirection();
-
-            app.UseRouting();
-
+            app.UseRouting();     
+            app.UseSwaggerSetup();
+            app.UseAuthentication();
+           // app.UseAuthorization();
             app.UseCors(c =>
             {
                 c.AllowAnyHeader();
@@ -66,15 +65,12 @@ namespace API
                 c.AllowAnyOrigin();
             });
 
-            //app.UseAuthentication();
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
           
-            app.UseSwaggerSetup();
+           
         }
     }
 }
