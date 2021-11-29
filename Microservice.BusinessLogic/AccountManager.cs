@@ -5,6 +5,7 @@ using Microservice.DataAccress.Accounts.Repositories;
 using Shareds.DesignPatterns.CQRS.Commands;
 using Shareds.DesignPatterns.CQRS.Commands.Interfaces;
 using Shareds.DesignPatterns.Repository.Extensions;
+using Shareds.Formatting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,9 +52,10 @@ namespace Microservice.BusinessLogic
         }
         public async Task<AccountDto> Accounts(string username, string password)
         {
+            string decodepass = PasswordFormatter.EncryptPlainTextToCipherText(password);
             var query = await this.repoAccounts.GetSingleAsync(x =>
                         x.Username.ToLower() == username.ToLower() &&
-                        x.Password.Contains(password) &&
+                        x.Password.Contains(decodepass) &&
                         x.Active
                         ).ConfigureAwait(false);
 
@@ -63,6 +65,8 @@ namespace Microservice.BusinessLogic
         public async Task<AccountDto> AddAccounts(AccountDto entity)
         {
             Command handle;
+
+            entity.Password = PasswordFormatter.EncryptPlainTextToCipherText(entity.Password);
 
             handle = new AccountCommand(entity);
             await this.command.Send(handle as AccountCommand).ConfigureAwait(false);

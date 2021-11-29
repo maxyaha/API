@@ -29,6 +29,7 @@
 	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
 	  <PackageReference Include="iTextSharp" Version="5.5.13.1" />
 	  <PackageReference Include="Steeltoe.Discovery.Client" Version="1.1.0" />
+	  <PackageReference Include="XAct.Core.PCL" Version="0.0.5014" />
   </ItemGroup>
 
 </Project>
